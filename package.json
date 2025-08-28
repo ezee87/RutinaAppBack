@@ -1,0 +1,30 @@
+{
+  "name": "rutina-app-backend",
+  "version": "1.0.0",
+  "description": "Backend para rutina-app (Express + MongoDB)",
+  "main": "src/app.js",
+  "scripts": {
+  "start": "node src/server.js",
+  "dev": "nodemon src/server.js",
+    "test": "jest --runInBand"
+  },
+  "keywords": [],
+  "author": "GitHub Copilot",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "jest": "^30.1.1",
+    "nodemon": "^3.0.1",
+    "supertest": "^7.1.4"
+  }
+}
