@@ -4,8 +4,8 @@
   "description": "Backend para rutina-app (Express + MongoDB)",
   "main": "src/app.js",
   "scripts": {
-  "start": "node src/server.js",
-  "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
     "test": "jest --runInBand"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
+    "morgan": "^1.10.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
