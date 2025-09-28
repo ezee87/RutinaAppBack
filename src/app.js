@@ -118,7 +118,8 @@ const swaggerOptions = {
       description: 'Documentación de la API para rutina-app',
     },
     servers: [
-      { url: 'http://localhost:' + (process.env.PORT || 4000) }
+      { url: 'https://rutinaappback.onrender.com', description: 'Render (producción)' },
+      { url: 'http://localhost:' + (process.env.PORT || 4000), description: 'Local (desarrollo)' }
     ],
     components: {
       securitySchemes: {
