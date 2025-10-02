@@ -18,10 +18,26 @@ exports.createProgreso = async (req, res) => {
     // Verificar que el usuario esté autenticado
     if (!req.userId) return res.status(401).json({ message: 'Usuario no autenticado' });
 
+    // Logging para debugging
+    console.log('createProgreso - userId:', req.userId);
+    console.log('createProgreso - body:', req.body);
+
     // Validar que la meta enviada sea un ObjectId válido
     const { meta } = req.body;
     if (!meta || !mongoose.Types.ObjectId.isValid(meta)) {
       return res.status(400).json({ message: 'Id de meta inválido' });
+    }
+
+    // Verificar que la meta exista
+    const Meta = require('../models/Meta');
+    const metaDoc = await Meta.findById(meta);
+    if (!metaDoc) {
+      return res.status(400).json({ message: 'Meta no encontrada' });
+    }
+
+    // (Opcional) Verificar que la meta pertenezca al usuario
+    if (metaDoc.usuario.toString() !== req.userId.toString()) {
+      return res.status(403).json({ message: 'No tienes permiso para agregar progreso a esta meta' });
     }
 
     const nuevoProgreso = new Progreso({ ...req.body, usuario: req.userId });
