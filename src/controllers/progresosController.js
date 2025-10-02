@@ -22,10 +22,11 @@ exports.createProgreso = async (req, res) => {
     console.log('createProgreso - userId:', req.userId);
     console.log('createProgreso - body:', req.body);
 
-    // Validar que la meta enviada sea un ObjectId válido
+    // Validar que la meta enviada sea un ObjectId válido (debe ser string con 24 hex chars)
     const { meta } = req.body;
-    if (!meta || !mongoose.Types.ObjectId.isValid(meta)) {
-      return res.status(400).json({ message: 'Id de meta inválido' });
+    if (!meta || typeof meta !== 'string' || !mongoose.Types.ObjectId.isValid(meta)) {
+      console.error('createProgreso - meta inválido recibido:', meta, 'tipo:', typeof meta);
+      return res.status(400).json({ message: 'Id de meta inválido. Debe ser el _id de MongoDB (string de 24 caracteres hex).', received: { value: meta, type: typeof meta } });
     }
 
     // Verificar que la meta exista
