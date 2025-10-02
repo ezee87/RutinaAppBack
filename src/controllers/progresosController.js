@@ -1,5 +1,6 @@
 // Controlador para Progresos
 const Progreso = require('../models/Progreso');
+const mongoose = require('mongoose');
 
 // Obtener todos los progresos del usuario autenticado
 exports.getProgresos = async (req, res) => {
@@ -14,12 +15,22 @@ exports.getProgresos = async (req, res) => {
 // Crear un nuevo progreso
 exports.createProgreso = async (req, res) => {
   try {
-  const nuevoProgreso = new Progreso({ ...req.body, usuario: req.userId });
+    // Verificar que el usuario esté autenticado
+    if (!req.userId) return res.status(401).json({ message: 'Usuario no autenticado' });
+
+    // Validar que la meta enviada sea un ObjectId válido
+    const { meta } = req.body;
+    if (!meta || !mongoose.Types.ObjectId.isValid(meta)) {
+      return res.status(400).json({ message: 'Id de meta inválido' });
+    }
+
+    const nuevoProgreso = new Progreso({ ...req.body, usuario: req.userId });
     await nuevoProgreso.save();
     res.status(201).json(nuevoProgreso);
   } catch (error) {
     console.error('Error al crear progreso:', error);
-    res.status(500).json({ message: 'Error al crear progreso', detalle: error.message, error });
+    // Enviar un mensaje más descriptivo al cliente, pero no exponer toda la traza
+    res.status(500).json({ message: 'Error al crear progreso', detalle: error.message });
   }
 };
 
