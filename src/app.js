@@ -96,8 +96,15 @@ const morgan = require('morgan');
 const app = express();
 
 // Configuración de CORS segura para producción
-const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:3000'];
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+// Por defecto incluir localhost:3000 y localhost:5173 para desarrollo local
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:3000', 'http://localhost:5173'];
+
+// En desarrollo permitir cualquier origen para facilitar pruebas locales
+if (process.env.NODE_ENV === 'development') {
+  app.use(cors({ origin: true, credentials: true }));
+} else {
+  app.use(cors({ origin: allowedOrigins, credentials: true }));
+}
 
 // Logs HTTP
 if (process.env.NODE_ENV !== 'test') {
